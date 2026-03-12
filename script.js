@@ -4,6 +4,8 @@ const STORAGE_KEYS = {
   contacts: "skyport_contacts",
 };
 
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mwvrogyg";
+
 const defaultJobs = [
   {
     id: "job-1",
@@ -213,6 +215,30 @@ function closeApplicationModal() {
   document.body.classList.remove("overflow-hidden");
 }
 
+async function submitToFormspree(formData) {
+  const response = await fetch(FORMSPREE_ENDPOINT, {
+    method: "POST",
+    body: formData,
+    headers: {
+      Accept: "application/json",
+    },
+  });
+
+  let payload = null;
+  try {
+    payload = await response.json();
+  } catch {
+    payload = null;
+  }
+
+  if (!response.ok) {
+    const message = payload && payload.errors && payload.errors.length
+      ? payload.errors.map((item) => item.message).join(", ")
+      : "Unable to submit the form right now.";
+    throw new Error(message);
+  }
+}
+
 document.addEventListener("click", (event) => {
   const applyButton = event.target.closest(".apply-button");
   if (applyButton) {
@@ -232,7 +258,7 @@ elements.closeApplicationModalButton.addEventListener("click", closeApplicationM
 elements.jobSearchInput.addEventListener("input", renderJobs);
 elements.jobCategoryFilter.addEventListener("change", renderJobs);
 
-elements.applicationForm.addEventListener("submit", (event) => {
+elements.applicationForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   if (!elements.applicationJobId.value) {
@@ -240,29 +266,45 @@ elements.applicationForm.addEventListener("submit", (event) => {
     return;
   }
 
-  const resumeInput = document.getElementById("resumeFile");
+  const submitButton = elements.applicationForm.querySelector('button[type="submit"]');
+  const formData = new FormData(elements.applicationForm);
+  formData.append("_subject", `Job application for ${elements.selectedJobTitle.textContent}`);
+
   persistCollection(STORAGE_KEYS.applications, {
     id: `app-${Date.now()}`,
     jobId: elements.applicationJobId.value,
     fullName: document.getElementById("fullName").value.trim(),
     contactNumber: document.getElementById("contactNumber").value.trim(),
     emailAddress: document.getElementById("emailAddress").value.trim(),
-    resumeFileName: resumeInput.files[0] ? resumeInput.files[0].name : "",
     coverLetter: document.getElementById("coverLetter").value.trim(),
     submittedAt: new Date().toISOString(),
   });
 
-  elements.applicationForm.reset();
-  elements.applicationJobId.value = "";
-  elements.selectedJobTitle.textContent = "Choose a vacancy to begin your application.";
-  elements.selectedJobMeta.textContent = "Your selected role details will appear here.";
-  elements.applicationMessage.textContent = "Your application has been submitted successfully.";
-  window.setTimeout(closeApplicationModal, 1200);
+  submitButton.disabled = true;
+  submitButton.textContent = "Submitting...";
+  elements.applicationMessage.textContent = "";
+
+  try {
+    await submitToFormspree(formData);
+    elements.applicationForm.reset();
+    elements.applicationJobId.value = "";
+    elements.selectedJobTitle.textContent = "Choose a vacancy to begin your application.";
+    elements.selectedJobMeta.textContent = "Your selected role details will appear here.";
+    elements.applicationMessage.textContent = "Your application has been submitted successfully.";
+    window.setTimeout(closeApplicationModal, 1200);
+  } catch (error) {
+    elements.applicationMessage.textContent = error.message;
+  } finally {
+    submitButton.disabled = false;
+    submitButton.textContent = "Submit Application";
+  }
 });
 
-elements.contactForm.addEventListener("submit", (event) => {
+elements.contactForm.addEventListener("submit", async (event) => {
   event.preventDefault();
+  const submitButton = elements.contactForm.querySelector('button[type="submit"]');
   const formData = new FormData(elements.contactForm);
+  formData.append("_subject", "New contact form submission");
 
   persistCollection(STORAGE_KEYS.contacts, {
     id: `contact-${Date.now()}`,
@@ -272,8 +314,20 @@ elements.contactForm.addEventListener("submit", (event) => {
     submittedAt: new Date().toISOString(),
   });
 
-  elements.contactForm.reset();
-  elements.contactMessageStatus.textContent = "Your message has been sent successfully.";
+  submitButton.disabled = true;
+  submitButton.textContent = "Sending...";
+  elements.contactMessageStatus.textContent = "";
+
+  try {
+    await submitToFormspree(formData);
+    elements.contactForm.reset();
+    elements.contactMessageStatus.textContent = "Your message has been sent successfully.";
+  } catch (error) {
+    elements.contactMessageStatus.textContent = error.message;
+  } finally {
+    submitButton.disabled = false;
+    submitButton.textContent = "Send Message";
+  }
 });
 
 window.addEventListener("keydown", (event) => {
