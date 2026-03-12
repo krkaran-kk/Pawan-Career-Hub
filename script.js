@@ -1,10 +1,6 @@
 const STORAGE_KEYS = {
   jobs: "skyport_jobs",
-  applications: "skyport_applications",
-  contacts: "skyport_contacts",
 };
-
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/mwvrogyg";
 
 const defaultJobs = [
   {
@@ -87,13 +83,9 @@ const elements = {
   activeJobsStat: document.getElementById("activeJobsStat"),
   selectedJobTitle: document.getElementById("selectedJobTitle"),
   selectedJobMeta: document.getElementById("selectedJobMeta"),
-  applicationForm: document.getElementById("applicationForm"),
-  applicationMessage: document.getElementById("applicationMessage"),
   applicationJobId: document.getElementById("applicationJobId"),
   applicationModal: document.getElementById("applicationModal"),
   closeApplicationModalButton: document.getElementById("closeApplicationModalButton"),
-  contactForm: document.getElementById("contactForm"),
-  contactMessageStatus: document.getElementById("contactMessageStatus"),
 };
 
 let jobs = loadJobs();
@@ -111,12 +103,6 @@ function loadJobs() {
     localStorage.setItem(STORAGE_KEYS.jobs, JSON.stringify(defaultJobs));
     return [...defaultJobs];
   }
-}
-
-function persistCollection(storageKey, value) {
-  const current = JSON.parse(localStorage.getItem(storageKey) || "[]");
-  current.push(value);
-  localStorage.setItem(storageKey, JSON.stringify(current));
 }
 
 function escapeHtml(text) {
@@ -203,7 +189,6 @@ function openApplicationModal(job) {
   elements.applicationJobId.value = job.id;
   elements.selectedJobTitle.textContent = job.title;
   elements.selectedJobMeta.textContent = `${job.company} | ${job.location} | ${job.salary}`;
-  elements.applicationMessage.textContent = "";
   elements.applicationModal.classList.remove("hidden");
   elements.applicationModal.classList.add("flex");
   document.body.classList.add("overflow-hidden");
@@ -213,30 +198,6 @@ function closeApplicationModal() {
   elements.applicationModal.classList.add("hidden");
   elements.applicationModal.classList.remove("flex");
   document.body.classList.remove("overflow-hidden");
-}
-
-async function submitToFormspree(formData) {
-  const response = await fetch(FORMSPREE_ENDPOINT, {
-    method: "POST",
-    body: formData,
-    headers: {
-      Accept: "application/json",
-    },
-  });
-
-  let payload = null;
-  try {
-    payload = await response.json();
-  } catch {
-    payload = null;
-  }
-
-  if (!response.ok) {
-    const message = payload && payload.errors && payload.errors.length
-      ? payload.errors.map((item) => item.message).join(", ")
-      : "Unable to submit the form right now.";
-    throw new Error(message);
-  }
 }
 
 document.addEventListener("click", (event) => {
@@ -258,78 +219,6 @@ elements.closeApplicationModalButton.addEventListener("click", closeApplicationM
 elements.jobSearchInput.addEventListener("input", renderJobs);
 elements.jobCategoryFilter.addEventListener("change", renderJobs);
 
-elements.applicationForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-
-  if (!elements.applicationJobId.value) {
-    elements.applicationMessage.textContent = "Please select a job before submitting the form.";
-    return;
-  }
-
-  const submitButton = elements.applicationForm.querySelector('button[type="submit"]');
-  const formData = new FormData(elements.applicationForm);
-  formData.append("_subject", `Job application for ${elements.selectedJobTitle.textContent}`);
-
-  persistCollection(STORAGE_KEYS.applications, {
-    id: `app-${Date.now()}`,
-    jobId: elements.applicationJobId.value,
-    fullName: document.getElementById("fullName").value.trim(),
-    contactNumber: document.getElementById("contactNumber").value.trim(),
-    emailAddress: document.getElementById("emailAddress").value.trim(),
-    coverLetter: document.getElementById("coverLetter").value.trim(),
-    submittedAt: new Date().toISOString(),
-  });
-
-  submitButton.disabled = true;
-  submitButton.textContent = "Submitting...";
-  elements.applicationMessage.textContent = "";
-
-  try {
-    await submitToFormspree(formData);
-    elements.applicationForm.reset();
-    elements.applicationJobId.value = "";
-    elements.selectedJobTitle.textContent = "Choose a vacancy to begin your application.";
-    elements.selectedJobMeta.textContent = "Your selected role details will appear here.";
-    elements.applicationMessage.textContent = "Your application has been submitted successfully.";
-    window.setTimeout(closeApplicationModal, 1200);
-  } catch (error) {
-    elements.applicationMessage.textContent = error.message;
-  } finally {
-    submitButton.disabled = false;
-    submitButton.textContent = "Submit Application";
-  }
-});
-
-elements.contactForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const submitButton = elements.contactForm.querySelector('button[type="submit"]');
-  const formData = new FormData(elements.contactForm);
-  formData.append("_subject", "New contact form submission");
-
-  persistCollection(STORAGE_KEYS.contacts, {
-    id: `contact-${Date.now()}`,
-    name: formData.get("name"),
-    email: formData.get("email"),
-    message: formData.get("message"),
-    submittedAt: new Date().toISOString(),
-  });
-
-  submitButton.disabled = true;
-  submitButton.textContent = "Sending...";
-  elements.contactMessageStatus.textContent = "";
-
-  try {
-    await submitToFormspree(formData);
-    elements.contactForm.reset();
-    elements.contactMessageStatus.textContent = "Your message has been sent successfully.";
-  } catch (error) {
-    elements.contactMessageStatus.textContent = error.message;
-  } finally {
-    submitButton.disabled = false;
-    submitButton.textContent = "Send Message";
-  }
-});
-
 window.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && !elements.applicationModal.classList.contains("hidden")) {
     closeApplicationModal();
@@ -337,4 +226,3 @@ window.addEventListener("keydown", (event) => {
 });
 
 renderJobs();
-
