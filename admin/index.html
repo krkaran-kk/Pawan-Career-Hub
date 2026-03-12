@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pawan Career Hub Admin</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="/admin/" aria-label="Pawan Career Hub admin">
+        <span class="brand-mark">PCH</span>
+        <span>
+          <strong>Pawan Career Hub</strong>
+          <small>Admin Dashboard</small>
+        </span>
+      </a>
+    </header>
+
+    <main>
+      <section class="jobs-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Admin</p>
+            <h2>Manage airport job postings</h2>
+          </div>
+          <p class="section-copy">
+            Create, edit, activate, draft, or remove job listings from one place.
+          </p>
+        </div>
+
+        <div class="admin-auth" id="adminAuth">
+          <h3>Secure Login</h3>
+          <p>Sign in with your admin username or email and password.</p>
+          <form id="adminLoginForm" method="POST">
+            <label>
+              <span>Username or Email</span>
+              <input id="adminUsernameInput" name="adminUsername" type="text" autocomplete="username" required>
+            </label>
+            <label>
+              <span>Password</span>
+              <input id="adminPasswordInput" name="adminPassword" type="password" autocomplete="current-password" required>
+            </label>
+            <button class="button button-primary full-width" type="submit">Access Dashboard</button>
+            <p class="form-note" id="adminLoginMessage" aria-live="polite"></p>
+          </form>
+          <p class="form-note">Set `ADMIN_USERNAME`, `ADMIN_PASSWORD`, and `ADMIN_SESSION_TOKEN` in Vercel.</p>
+        </div>
+
+        <div class="admin-content hidden" id="adminContent">
+          <div class="admin-toolbar">
+            <p>Signed in as administrator.</p>
+            <button class="button button-secondary" id="adminLogoutButton" type="button">Logout</button>
+          </div>
+
+          <div class="admin-layout">
+            <form action="https://formspree.io/f/mwvrogyg" class="admin-form" id="jobForm" method="POST">
+              <h3 id="jobFormHeading">Post a new vacancy</h3>
+              <input id="jobId" type="hidden">
+
+              <label>
+                <span>Job Title</span>
+                <input id="jobTitle" type="text" required>
+              </label>
+
+              <label>
+                <span>Company Name</span>
+                <input id="companyName" type="text" required>
+              </label>
+
+              <label>
+                <span>Job Description</span>
+                <textarea id="jobDescription" rows="4" required></textarea>
+              </label>
+
+              <label>
+                <span>Working Hours</span>
+                <input id="workingHours" type="text" placeholder="9-hour rotational shift" required>
+              </label>
+
+              <label>
+                <span>Salary</span>
+                <input id="salary" type="text" placeholder="Rs 28,000 - Rs 36,000 / month" required>
+              </label>
+
+              <label>
+                <span>Job Location</span>
+                <input id="jobLocation" type="text" required>
+              </label>
+
+              <label>
+                <span>Position Type</span>
+                <select id="positionType" required>
+                  <option value="Cabin Crew">Cabin Crew</option>
+                  <option value="Ground Staff">Ground Staff</option>
+                  <option value="Customer Service">Customer Service</option>
+                  <option value="Ramp Operations">Ramp Operations</option>
+                  <option value="Security">Security</option>
+                </select>
+              </label>
+
+              <label>
+                <span>Status</span>
+                <select id="jobStatus" required>
+                  <option value="Drafted">Drafted</option>
+                  <option value="Active">Active</option>
+                  <option value="Deleted">Deleted</option>
+                </select>
+              </label>
+
+              <div class="form-actions">
+                <button class="button button-primary" type="submit">Save Job</button>
+                <button class="button button-secondary" id="resetJobFormButton" type="button">Reset</button>
+              </div>
+
+              <p class="form-note" id="jobFormMessage" aria-live="polite"></p>
+            </form>
+
+            <section class="admin-listing">
+              <div class="admin-listing-header">
+                <h3>All Job Posts</h3>
+                <p>Review every vacancy and update its status as needed.</p>
+              </div>
+              <div class="admin-job-list" id="adminJobList"></div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
