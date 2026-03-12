@@ -387,23 +387,22 @@
           </a>
         </div>
 
-        <form action="https://formspree.io/f/mwvrogyg"
-          class="mx-auto grid max-w-4xl grid-cols-1 gap-4 rounded-2xl bg-white p-6 text-left shadow-xl md:grid-cols-2"
-          id="contactForm" method="POST">
+        <form action="https://formspree.io/f/mwvrogyg" class="mx-auto grid max-w-4xl grid-cols-1 gap-4 rounded-2xl bg-white p-6 text-left shadow-xl md:grid-cols-2" id="contactForm" method="POST">
+          <input name="formType" type="hidden" value="Contact Form">
           <label class="block">
             <span class="mb-2 block text-sm font-medium text-slate-700">Name</span>
-            <input class="block w-full rounded-lg border-slate-200 bg-slate-50 px-4 py-3 text-sm" name="contactName"
+            <input class="block w-full rounded-lg border-slate-200 bg-slate-50 px-4 py-3 text-sm" name="name"
               required type="text">
           </label>
           <label class="block">
             <span class="mb-2 block text-sm font-medium text-slate-700">Email</span>
-            <input class="block w-full rounded-lg border-slate-200 bg-slate-50 px-4 py-3 text-sm" name="contactEmail"
+            <input class="block w-full rounded-lg border-slate-200 bg-slate-50 px-4 py-3 text-sm" name="email"
               required type="email">
           </label>
           <label class="block md:col-span-2">
             <span class="mb-2 block text-sm font-medium text-slate-700">Message</span>
             <textarea class="block w-full rounded-lg border-slate-200 bg-slate-50 px-4 py-3 text-sm"
-              name="contactMessage" required rows="5"></textarea>
+              name="message" required rows="5"></textarea>
           </label>
           <div class="md:col-span-2 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <button class="rounded-lg bg-primary px-8 py-3 font-bold text-white transition-colors hover:bg-primary/90"
@@ -545,11 +544,12 @@
           </div>
 
           <input id="applicationJobId" name="jobId" type="hidden">
+          <input name="formType" type="hidden" value="Job Application">
 
           <label class="block">
             <span class="mb-2 block text-sm font-medium text-slate-700">Full Name</span>
             <input class="block w-full rounded-lg border-slate-200 bg-slate-50 px-4 py-3 text-sm" id="fullName"
-              name="fullName" required type="text">
+              name="name" required type="text">
           </label>
 
           <label class="block">
@@ -561,7 +561,7 @@
           <label class="block">
             <span class="mb-2 block text-sm font-medium text-slate-700">Email Address</span>
             <input class="block w-full rounded-lg border-slate-200 bg-slate-50 px-4 py-3 text-sm" id="emailAddress"
-              name="emailAddress" required type="email">
+              name="email" required type="email">
           </label>
 
           <!-- The PDF Upload Option has been removed here -->
@@ -569,7 +569,7 @@
           <label class="block">
             <span class="mb-2 block text-sm font-medium text-slate-700">Cover Letter</span>
             <textarea class="block w-full rounded-lg border-slate-200 bg-slate-50 px-4 py-3 text-sm" id="coverLetter"
-              name="coverLetter" required rows="5"></textarea>
+              name="message" required rows="5"></textarea>
           </label>
 
           <div class="flex flex-col gap-3 pt-2 md:flex-row md:items-center md:justify-between">
@@ -590,3 +590,4 @@
 </body>
 
 </html>
+

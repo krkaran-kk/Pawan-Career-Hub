@@ -308,9 +308,9 @@ elements.contactForm.addEventListener("submit", async (event) => {
 
   persistCollection(STORAGE_KEYS.contacts, {
     id: `contact-${Date.now()}`,
-    name: formData.get("contactName"),
-    email: formData.get("contactEmail"),
-    message: formData.get("contactMessage"),
+    name: formData.get("name"),
+    email: formData.get("email"),
+    message: formData.get("message"),
     submittedAt: new Date().toISOString(),
   });
 
@@ -337,3 +337,4 @@ window.addEventListener("keydown", (event) => {
 });
 
 renderJobs();
+
