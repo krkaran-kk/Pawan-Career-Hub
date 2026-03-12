@@ -119,6 +119,16 @@ function escapeHtml(text) {
   });
 }
 
+function statusClasses(status) {
+  if (status === "Active") {
+    return "bg-emerald-100 text-emerald-700";
+  }
+  if (status === "Deleted") {
+    return "bg-rose-100 text-rose-700";
+  }
+  return "bg-amber-100 text-amber-700";
+}
+
 function resetJobForm() {
   elements.jobForm.reset();
   elements.jobId.value = "";
@@ -149,18 +159,21 @@ function renderAdminJobs() {
   elements.adminJobList.innerHTML = sortedJobs
     .map(
       (job) => `
-        <article class="admin-listing-item">
-          <div>
-            <div class="job-card-head">
-              <h4>${escapeHtml(job.title)}</h4>
-              <span class="status-pill" data-status="${escapeHtml(job.status)}">${escapeHtml(job.status)}</span>
+        <article class="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
+          <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+            <div>
+              <div class="mb-2 flex flex-wrap items-center gap-3">
+                <h4 class="text-lg font-bold text-slate-900">${escapeHtml(job.title)}</h4>
+                <span class="rounded-full px-3 py-1 text-xs font-bold uppercase ${statusClasses(job.status)}">${escapeHtml(job.status)}</span>
+              </div>
+              <p class="text-sm text-slate-500">${escapeHtml(job.company)} | ${escapeHtml(job.type)} | ${escapeHtml(job.location)}</p>
             </div>
-            <p>${escapeHtml(job.company)} | ${escapeHtml(job.type)} | ${escapeHtml(job.location)}</p>
-            <div class="admin-actions">
-              <button class="button button-secondary admin-edit" type="button" data-job-id="${escapeHtml(job.id)}">Edit</button>
-              <button class="button button-secondary admin-status" type="button" data-job-id="${escapeHtml(job.id)}" data-status="Drafted">Draft</button>
-              <button class="button button-secondary admin-status" type="button" data-job-id="${escapeHtml(job.id)}" data-status="Active">Activate</button>
-              <button class="button button-secondary admin-status" type="button" data-job-id="${escapeHtml(job.id)}" data-status="Deleted">Delete</button>
+
+            <div class="flex flex-wrap gap-2">
+              <button class="admin-edit rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-white" type="button" data-job-id="${escapeHtml(job.id)}">Edit</button>
+              <button class="admin-status rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-white" type="button" data-job-id="${escapeHtml(job.id)}" data-status="Drafted">Draft</button>
+              <button class="admin-status rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary/90" type="button" data-job-id="${escapeHtml(job.id)}" data-status="Active">Activate</button>
+              <button class="admin-status rounded-lg border border-rose-200 px-4 py-2 text-sm font-semibold text-rose-700 transition-colors hover:bg-rose-50" type="button" data-job-id="${escapeHtml(job.id)}" data-status="Deleted">Delete</button>
             </div>
           </div>
         </article>

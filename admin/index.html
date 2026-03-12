@@ -1,102 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pawan Career Hub Admin</title>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta name="robots" content="noindex,nofollow">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@600;700&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#2b7cee",
+            "background-light": "#f6f7f8",
+            "background-dark": "#101822",
+          },
+          fontFamily: {
+            display: ["Public Sans", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px",
+          },
+        },
+      },
+    };
+  </script>
+  <title>Pawan Career Hub Admin</title>
+  <style>
+    body {
+      min-height: 100dvh;
+    }
+
+    .site-wrap {
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @media (max-width: 768px) {
+      .site-wrap {
+        width: calc(100% - 2rem);
+      }
+    }
+  </style>
 </head>
-<body>
-  <div class="page-shell">
-    <header class="topbar">
-      <a class="brand" href="/admin/" aria-label="Pawan Career Hub admin">
-        <span class="brand-mark">PCH</span>
-        <span>
-          <strong>Pawan Career Hub</strong>
-          <small>Admin Dashboard</small>
-        </span>
+<body class="bg-background-light font-display text-slate-900">
+  <header class="sticky top-0 z-50 w-full border-b border-slate-200 bg-background-light/80 backdrop-blur-md">
+    <div class="site-wrap flex h-16 items-center justify-between px-4">
+      <a class="flex items-center gap-2" href="/admin/">
+        <span class="material-symbols-outlined text-3xl text-primary">flight_takeoff</span>
+        <span class="text-xl font-bold tracking-tight">Pawan Career Hub</span>
       </a>
-    </header>
+      <span class="hidden text-sm font-medium text-slate-500 md:block">Admin Dashboard</span>
+    </div>
+  </header>
 
-    <main>
-      <section class="jobs-section">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Admin</p>
-            <h2>Manage airport job postings</h2>
-          </div>
-          <p class="section-copy">
-            Create, edit, activate, draft, or remove job listings from one place.
-          </p>
+  <main class="py-16">
+    <section class="site-wrap px-4">
+      <div class="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p class="mb-3 text-sm font-bold uppercase tracking-[0.24em] text-primary">Admin</p>
+          <h1 class="text-4xl font-black leading-tight text-slate-900 md:text-6xl">Manage airport job postings</h1>
         </div>
+        <p class="max-w-xl text-lg text-slate-500">Create, edit, activate, draft, or remove job listings from one clean dashboard.</p>
+      </div>
 
-        <div class="admin-auth" id="adminAuth">
-          <h3>Secure Login</h3>
-          <p>Sign in with your admin username or email and password.</p>
-          <form id="adminLoginForm" method="POST">
-            <label>
-              <span>Username or Email</span>
-              <input id="adminUsernameInput" name="adminUsername" type="text" autocomplete="username" required>
+      <div class="grid grid-cols-1 gap-8 xl:grid-cols-[420px_1fr]">
+        <section class="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm" id="adminAuth">
+          <h2 class="mb-3 text-3xl font-bold text-slate-900">Secure Login</h2>
+          <p class="mb-8 text-slate-500">Sign in with your admin username or email and password.</p>
+
+          <form class="grid gap-5" id="adminLoginForm" method="POST">
+            <label class="block">
+              <span class="mb-2 block text-sm font-medium text-slate-700">Username or Email</span>
+              <input class="block w-full rounded-2xl border-slate-200 bg-slate-50 px-4 py-4 text-base" id="adminUsernameInput" name="adminUsername" type="text" autocomplete="username" required>
             </label>
-            <label>
-              <span>Password</span>
-              <input id="adminPasswordInput" name="adminPassword" type="password" autocomplete="current-password" required>
+
+            <label class="block">
+              <span class="mb-2 block text-sm font-medium text-slate-700">Password</span>
+              <input class="block w-full rounded-2xl border-slate-200 bg-slate-50 px-4 py-4 text-base" id="adminPasswordInput" name="adminPassword" type="password" autocomplete="current-password" required>
             </label>
-            <button class="button button-primary full-width" type="submit">Access Dashboard</button>
-            <p class="form-note" id="adminLoginMessage" aria-live="polite"></p>
+
+            <button class="rounded-2xl bg-primary px-8 py-4 text-lg font-bold text-white transition-colors hover:bg-primary/90" type="submit">
+              Access Dashboard
+            </button>
+            <p class="text-sm text-red-500" id="adminLoginMessage"></p>
           </form>
-        </div>
+        </section>
 
-        <div class="admin-content hidden" id="adminContent">
-          <div class="admin-toolbar">
-            <p>Signed in as administrator.</p>
-            <button class="button button-secondary" id="adminLogoutButton" type="button">Logout</button>
+        <section class="hidden rounded-3xl border border-slate-200 bg-white p-8 shadow-sm" id="adminContent">
+          <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div>
+              <h2 class="text-3xl font-bold text-slate-900">Admin Workspace</h2>
+              <p class="text-slate-500">Manage live vacancies and review current posting status.</p>
+            </div>
+            <button class="rounded-xl border border-slate-200 px-6 py-3 font-semibold text-slate-700 transition-colors hover:bg-slate-50" id="adminLogoutButton" type="button">
+              Logout
+            </button>
           </div>
 
-          <div class="admin-layout">
-            <form action="https://formspree.io/f/mwvrogyg" class="admin-form" id="jobForm" method="POST">
-              <h3 id="jobFormHeading">Post a new vacancy</h3>
+          <div class="grid grid-cols-1 gap-8 2xl:grid-cols-[420px_1fr]">
+            <form action="https://formspree.io/f/mwvrogyg" class="grid gap-5 rounded-2xl border border-slate-200 bg-slate-50 p-6" id="jobForm" method="POST">
+              <div>
+                <p class="mb-2 text-sm font-bold uppercase tracking-widest text-primary">Job Form</p>
+                <h3 class="text-2xl font-bold text-slate-900" id="jobFormHeading">Post a new vacancy</h3>
+              </div>
+
               <input id="jobId" type="hidden">
 
-              <label>
-                <span>Job Title</span>
-                <input id="jobTitle" type="text" required>
+              <label class="block">
+                <span class="mb-2 block text-sm font-medium text-slate-700">Job Title</span>
+                <input class="block w-full rounded-xl border-slate-200 bg-white px-4 py-3 text-sm" id="jobTitle" type="text" required>
               </label>
 
-              <label>
-                <span>Company Name</span>
-                <input id="companyName" type="text" required>
+              <label class="block">
+                <span class="mb-2 block text-sm font-medium text-slate-700">Company Name</span>
+                <input class="block w-full rounded-xl border-slate-200 bg-white px-4 py-3 text-sm" id="companyName" type="text" required>
               </label>
 
-              <label>
-                <span>Job Description</span>
-                <textarea id="jobDescription" rows="4" required></textarea>
+              <label class="block">
+                <span class="mb-2 block text-sm font-medium text-slate-700">Job Description</span>
+                <textarea class="block w-full rounded-xl border-slate-200 bg-white px-4 py-3 text-sm" id="jobDescription" rows="4" required></textarea>
               </label>
 
-              <label>
-                <span>Working Hours</span>
-                <input id="workingHours" type="text" placeholder="9-hour rotational shift" required>
+              <label class="block">
+                <span class="mb-2 block text-sm font-medium text-slate-700">Working Hours</span>
+                <input class="block w-full rounded-xl border-slate-200 bg-white px-4 py-3 text-sm" id="workingHours" placeholder="9-hour rotational shift" type="text" required>
               </label>
 
-              <label>
-                <span>Salary</span>
-                <input id="salary" type="text" placeholder="Rs 28,000 - Rs 36,000 / month" required>
+              <label class="block">
+                <span class="mb-2 block text-sm font-medium text-slate-700">Salary</span>
+                <input class="block w-full rounded-xl border-slate-200 bg-white px-4 py-3 text-sm" id="salary" placeholder="Rs 28,000 - Rs 36,000 / month" type="text" required>
               </label>
 
-              <label>
-                <span>Job Location</span>
-                <input id="jobLocation" type="text" required>
+              <label class="block">
+                <span class="mb-2 block text-sm font-medium text-slate-700">Job Location</span>
+                <input class="block w-full rounded-xl border-slate-200 bg-white px-4 py-3 text-sm" id="jobLocation" type="text" required>
               </label>
 
-              <label>
-                <span>Position Type</span>
-                <select id="positionType" required>
+              <label class="block">
+                <span class="mb-2 block text-sm font-medium text-slate-700">Position Type</span>
+                <select class="block w-full rounded-xl border-slate-200 bg-white px-4 py-3 text-sm" id="positionType" required>
                   <option value="Cabin Crew">Cabin Crew</option>
                   <option value="Ground Staff">Ground Staff</option>
                   <option value="Customer Service">Customer Service</option>
@@ -105,35 +154,38 @@
                 </select>
               </label>
 
-              <label>
-                <span>Status</span>
-                <select id="jobStatus" required>
+              <label class="block">
+                <span class="mb-2 block text-sm font-medium text-slate-700">Status</span>
+                <select class="block w-full rounded-xl border-slate-200 bg-white px-4 py-3 text-sm" id="jobStatus" required>
                   <option value="Drafted">Drafted</option>
                   <option value="Active">Active</option>
                   <option value="Deleted">Deleted</option>
                 </select>
               </label>
 
-              <div class="form-actions">
-                <button class="button button-primary" type="submit">Save Job</button>
-                <button class="button button-secondary" id="resetJobFormButton" type="button">Reset</button>
+              <div class="flex flex-col gap-3 md:flex-row">
+                <button class="rounded-xl bg-primary px-6 py-3 font-bold text-white transition-colors hover:bg-primary/90" type="submit">Save Job</button>
+                <button class="rounded-xl border border-slate-200 px-6 py-3 font-semibold text-slate-700 transition-colors hover:bg-white" id="resetJobFormButton" type="button">Reset</button>
               </div>
 
-              <p class="form-note" id="jobFormMessage" aria-live="polite"></p>
+              <p class="text-sm text-slate-500" id="jobFormMessage"></p>
             </form>
 
-            <section class="admin-listing">
-              <div class="admin-listing-header">
-                <h3>All Job Posts</h3>
-                <p>Review every vacancy and update its status as needed.</p>
+            <section class="rounded-2xl border border-slate-200 bg-white p-6">
+              <div class="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                <div>
+                  <p class="mb-2 text-sm font-bold uppercase tracking-widest text-primary">Job Posts</p>
+                  <h3 class="text-2xl font-bold text-slate-900">All Job Listings</h3>
+                </div>
+                <p class="text-sm text-slate-500">Review active, drafted, and deleted roles in one list.</p>
               </div>
-              <div class="admin-job-list" id="adminJobList"></div>
+              <div class="grid gap-4" id="adminJobList"></div>
             </section>
           </div>
-        </div>
-      </section>
-    </main>
-  </div>
+        </section>
+      </div>
+    </section>
+  </main>
 
   <script src="admin.js"></script>
 </body>
