@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="description"
+    content="Premium airport recruitment portal for cabin crew, ground staff, customer service, security, and airport operations roles.">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet">
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#2b7cee",
+            "background-light": "#f6f7f8",
+            "background-dark": "#101822",
+          },
+          fontFamily: {
+            display: ["Public Sans", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px",
+          },
+        },
+      },
+    };
+  </script>
+  <title>Pawan Career Hub | Airport Careers</title>
+  <style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+
+    .site-wrap {
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @media (max-width: 768px) {
+      .site-wrap {
+        width: calc(100% - 2rem);
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-background-light font-display text-slate-900">
+  <header class="sticky top-0 z-50 w-full border-b border-slate-200 bg-background-light/80 backdrop-blur-md">
+    <div class="site-wrap flex h-16 items-center justify-between px-4">
+      <a class="flex items-center gap-2" href="#home">
+        <span class="material-symbols-outlined text-3xl text-primary">flight_takeoff</span>
+        <span class="text-xl font-bold tracking-tight">Pawan Career Hub</span>
+      </a>
+
+      <nav class="hidden items-center gap-8 text-sm font-medium md:flex">
+        <a class="text-primary" href="#jobs">Find Jobs</a>
+        <a class="transition-colors hover:text-primary" href="#about">About Us</a>
+        <a class="transition-colors hover:text-primary" href="#benefits">Why Join Us</a>
+        <a class="transition-colors hover:text-primary" href="#contact">Contact</a>
+      </nav>
+
+      <div class="md:hidden">
+        <span class="material-symbols-outlined cursor-pointer">menu</span>
+      </div>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="relative flex min-h-[680px] w-full items-center justify-center overflow-hidden">
+      <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 z-10 bg-gradient-to-r from-slate-950/85 via-slate-900/65 to-slate-900/35"></div>
+        <img alt="Commercial airplane on runway during sunset" class="h-full w-full object-cover"
+          src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1600&q=80">
+      </div>
+
+      <div class="site-wrap relative z-20 px-4">
+        <div class="mx-auto max-w-5xl text-center">
+          <h1 class="mb-8 text-5xl font-black leading-tight text-white md:text-7xl">
+            Elevating Careers
+            <br>
+            <span class="text-primary">Across The Horizon</span>
+          </h1>
+          <p class="mx-auto mb-12 max-w-3xl text-xl font-light leading-relaxed text-slate-100 md:text-2xl">
+            Explore airport openings for cabin crew, ground staff, customer support, security, and operations teams with
+            a fast and professional application experience.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <a class="rounded-lg bg-primary px-10 py-4 text-lg font-bold text-white shadow-lg transition-all hover:bg-primary/90"
+              href="#jobs">
+              Explore Opportunities
+            </a>
+            <a class="rounded-lg border border-white/30 bg-white/10 px-10 py-4 text-lg font-bold text-white backdrop-blur-sm transition-all hover:bg-white/20"
+              href="tel:+919876543210">
+              Call Me Now
+            </a>
+          </div>
+
+          <div class="mt-14 grid grid-cols-1 gap-4 md:grid-cols-3">
+            <div class="rounded-2xl border border-white/10 bg-white/10 p-5 backdrop-blur-sm">
+              <p class="text-3xl font-black text-white" id="activeJobsStat">0</p>
+              <p class="text-sm text-slate-200">Active vacancies</p>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/10 p-5 backdrop-blur-sm">
+              <p class="text-3xl font-black text-white">24h</p>
+              <p class="text-sm text-slate-200">Quick recruiter response</p>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/10 p-5 backdrop-blur-sm">
+              <p class="text-3xl font-black text-white">Pan India</p>
+              <p class="text-sm text-slate-200">Airport recruitment coverage</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-background-light py-20" id="jobs">
+      <div class="site-wrap px-4">
+        <div class="mb-8 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h2 class="mb-2 text-3xl font-bold">Featured Opportunities</h2>
+            <p class="text-slate-500">Discover active airport roles with verified hiring details</p>
+          </div>
+          <a class="flex items-center gap-1 font-semibold text-primary hover:underline" href="#contact">
+            Talk to Recruitment
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </a>
+        </div>
+
+        <div
+          class="mb-10 grid grid-cols-1 gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm md:grid-cols-[1fr_240px]">
+          <label class="block">
+            <span class="sr-only">Search jobs</span>
+            <input class="block w-full rounded-lg border-slate-200 bg-slate-50 px-4 py-3 text-sm" id="jobSearchInput"
+              placeholder="Search by job title, company, or location" type="search">
+          </label>
+          <label class="block">
+            <span class="sr-only">Filter jobs</span>
+            <select class="block w-full rounded-lg border-slate-200 bg-slate-50 px-4 py-3 text-sm"
+              id="jobCategoryFilter">
+              <option value="all">All Departments</option>
+              <option value="Cabin Crew">Cabin Crew</option>
+              <option value="Ground Staff">Ground Staff</option>
+              <option value="Customer Service">Customer Service</option>
+              <option value="Ramp Operations">Ramp Operations</option>
+              <option value="Security">Security</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" id="jobListings"></div>
+        <p class="mt-6 hidden rounded-xl border border-dashed border-slate-300 bg-white p-6 text-center text-slate-500"
+          id="emptyJobsState">
+          No jobs match your current search.
+        </p>
+      </div>
+    </section>
+
+    <section class="bg-slate-100 py-20" id="about">
+      <div class="site-wrap px-4">
+        <div class="flex flex-col items-center gap-16 lg:flex-row">
+          <div class="relative lg:w-1/2">
+            <div class="aspect-square w-full overflow-hidden rounded-2xl shadow-2xl">
+              <img alt="Modern airport interior" class="h-full w-full object-cover"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiLKkg4aPM0mKFKOIm1W99_zr0o0phhw28dKoYXN_KWPiBHNMoCpXpQNm3newD-HIb7Kvd62ml9HHCcIgKbhdptpIcgB26p68v9UTCocEVr71k_ypEef3ePiRCwdlPcnyPjXkLQIVqr7nF55-2iUia2DcUbajTy2RAIN8BUC1vpIAtylisemH7JsVl2X7WvJygc19We7KivMgx49UBgK6ARXJNvAiXDKBN5BrnjqiOuC9RN1z1ZbmvclL2N8ASY-hc40MoQaOfCJY">
+            </div>
+            <div class="absolute -bottom-6 -right-6 hidden rounded-xl bg-primary p-8 text-white md:block">
+              <p class="text-4xl font-black">10k+</p>
+              <p class="text-sm font-medium uppercase tracking-widest">Applications Received</p>
+            </div>
+          </div>
+
+          <div class="lg:w-1/2">
+            <h2 class="mb-6 text-3xl font-bold">Redefining airport recruitment for modern candidates</h2>
+            <p class="mb-6 text-lg leading-relaxed text-slate-600">
+              Pawan Career Hub helps connect candidates with airport employers across passenger service, operations,
+              cabin services, and support teams.
+            </p>
+            <p class="mb-8 text-lg leading-relaxed text-slate-600">
+              Our platform is built to make the hiring process easier with clear vacancy information, fast applications,
+              and direct recruiter access.
+            </p>
+
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              <div class="flex items-start gap-3">
+                <span class="material-symbols-outlined text-primary">verified</span>
+                <div>
+                  <h4 class="font-bold">Verified openings</h4>
+                  <p class="text-sm text-slate-500">Clear job details and active positions</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="material-symbols-outlined text-primary">call</span>
+                <div>
+                  <h4 class="font-bold">Direct support</h4>
+                  <p class="text-sm text-slate-500">Easy call access for candidate questions</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="overflow-hidden bg-white py-24">
+      <div class="site-wrap px-4">
+        <div class="mb-16 flex flex-col items-center justify-between gap-8 md:flex-row">
+          <div class="max-w-xl">
+            <span class="mb-4 block text-sm font-bold uppercase tracking-widest text-primary">Inside the Hub</span>
+            <h2 class="mb-6 text-4xl font-bold text-slate-900">Life at the Airport</h2>
+            <p class="text-lg text-slate-500">See the fast-moving environment where teams support passengers, aircraft
+              movement, and daily airport operations.</p>
+          </div>
+          <a class="rounded-lg border-2 border-primary px-8 py-3 font-bold text-primary transition-all hover:bg-primary hover:text-white"
+            href="tel:+919876543210">
+            Call Recruitment
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-12">
+          <div class="md:col-span-8">
+            <div class="group relative h-[500px] overflow-hidden rounded-2xl">
+              <img alt="Airport runway team"
+                class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                src="https://images.unsplash.com/photo-1517479149777-5f3b1511d5ad?auto=format&fit=crop&w=1400&q=80">
+              <div class="absolute inset-0 flex items-end bg-gradient-to-t from-slate-900/80 to-transparent p-8">
+                <div>
+                  <h4 class="mb-2 text-2xl font-bold text-white">The Pulse of Global Travel</h4>
+                  <p class="text-slate-200">Aviation careers built around energy, service, and teamwork.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col gap-6 md:col-span-4">
+            <div class="group relative h-[238px] overflow-hidden rounded-2xl">
+              <img alt="Airport customer support team"
+                class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                src="https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&w=900&q=80">
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+            </div>
+            <div class="group relative h-[238px] overflow-hidden rounded-2xl">
+              <img alt="Airport operations equipment"
+                class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                src="https://images.unsplash.com/photo-1540339832862-474599807836?auto=format&fit=crop&w=900&q=80">
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white py-24" id="benefits">
+      <div class="site-wrap px-4 text-center">
+        <span class="mb-4 block text-sm font-bold uppercase tracking-widest text-primary">Your Future in Flight</span>
+        <h2 class="mb-6 text-4xl font-bold text-slate-900 md:text-5xl">Why Choose Pawan Career Hub?</h2>
+        <p class="mx-auto mb-20 max-w-2xl text-lg text-slate-500">
+          We make airport job discovery and applications easier with a professional layout, simple form flow, and direct
+          support access.
+        </p>
+
+        <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
+          <div
+            class="group rounded-2xl border border-transparent bg-background-light p-8 transition-all hover:-translate-y-2 hover:border-primary/20">
+            <div
+              class="mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-white">
+              <span class="material-symbols-outlined text-4xl">rocket_launch</span>
+            </div>
+            <h4 class="mb-4 text-xl font-bold text-slate-900">Fast applications</h4>
+            <p class="text-sm leading-relaxed text-slate-500">Apply directly from the vacancy card without leaving the
+              page.</p>
+          </div>
+
+          <div
+            class="group rounded-2xl border border-transparent bg-background-light p-8 transition-all hover:-translate-y-2 hover:border-primary/20">
+            <div
+              class="mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-white">
+              <span class="material-symbols-outlined text-4xl">travel_explore</span>
+            </div>
+            <h4 class="mb-4 text-xl font-bold text-slate-900">Multiple airport roles</h4>
+            <p class="text-sm leading-relaxed text-slate-500">Browse roles across cabin crew, ground staff, service,
+              security, and operations.</p>
+          </div>
+
+          <div
+            class="group rounded-2xl border border-transparent bg-background-light p-8 transition-all hover:-translate-y-2 hover:border-primary/20">
+            <div
+              class="mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-white">
+              <span class="material-symbols-outlined text-4xl">military_tech</span>
+            </div>
+            <h4 class="mb-4 text-xl font-bold text-slate-900">Clear hiring details</h4>
+            <p class="text-sm leading-relaxed text-slate-500">Every job card shows company, location, hours, and salary
+              information.</p>
+          </div>
+
+          <div
+            class="group rounded-2xl border border-transparent bg-background-light p-8 transition-all hover:-translate-y-2 hover:border-primary/20">
+            <div
+              class="mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-white">
+              <span class="material-symbols-outlined text-4xl">support_agent</span>
+            </div>
+            <h4 class="mb-4 text-xl font-bold text-slate-900">Recruitment support</h4>
+            <p class="text-sm leading-relaxed text-slate-500">Candidates can call directly for quick assistance during
+              the application process.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-background-light py-24">
+      <div class="site-wrap px-4">
+        <div class="mb-16 text-center">
+          <span class="mb-4 block text-sm font-bold uppercase tracking-widest text-primary">Application Process</span>
+          <h2 class="text-4xl font-bold text-slate-900">Apply in three simple steps</h2>
+        </div>
+
+        <div class="mx-auto grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-3">
+          <div class="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+            <p class="mb-4 text-sm font-bold uppercase tracking-widest text-primary">Step 1</p>
+            <h3 class="mb-3 text-xl font-bold">Find a role</h3>
+            <p class="text-slate-500">Use the search and category filter to find airport vacancies that match your
+              interest.</p>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+            <p class="mb-4 text-sm font-bold uppercase tracking-widest text-primary">Step 2</p>
+            <h3 class="mb-3 text-xl font-bold">Open the popup form</h3>
+            <p class="text-slate-500">Click Apply Now on any vacancy and complete the form with your details and resume.
+            </p>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+            <p class="mb-4 text-sm font-bold uppercase tracking-widest text-primary">Step 3</p>
+            <h3 class="mb-3 text-xl font-bold">Wait for follow-up</h3>
+            <p class="text-slate-500">Shortlisted candidates can expect contact from the recruitment team after review.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-slate-50 py-20">
+      <div class="site-wrap px-4">
+        <div class="grid grid-cols-2 gap-8 text-center md:grid-cols-4">
+          <div>
+            <p class="mb-2 text-4xl font-black text-primary md:text-5xl">50k+</p>
+            <p class="text-xs font-medium uppercase tracking-widest text-slate-500">Applications</p>
+          </div>
+          <div>
+            <p class="mb-2 text-4xl font-black text-primary md:text-5xl">120+</p>
+            <p class="text-xs font-medium uppercase tracking-widest text-slate-500">Hiring Partners</p>
+          </div>
+          <div>
+            <p class="mb-2 text-4xl font-black text-primary md:text-5xl">30+</p>
+            <p class="text-xs font-medium uppercase tracking-widest text-slate-500">Airport Locations</p>
+          </div>
+          <div>
+            <p class="mb-2 text-4xl font-black text-primary md:text-5xl">98%</p>
+            <p class="text-xs font-medium uppercase tracking-widest text-slate-500">Candidate Satisfaction</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-primary py-20" id="contact">
+      <div class="site-wrap px-4 text-center">
+        <h2 class="mb-4 text-3xl font-bold text-white">Need help before you apply?</h2>
+        <p class="mx-auto mb-10 max-w-xl text-white/80">
+          Speak with the recruitment team or send your question using the contact form below.
+        </p>
+
+        <div class="mx-auto mb-10 flex max-w-lg flex-col gap-4 md:flex-row">
+          <a class="flex-1 rounded-lg bg-slate-900 px-8 py-4 font-bold text-white transition-colors hover:bg-slate-800"
+            href="tel:+919876543210">
+            Call Us Now
+          </a>
+          <a class="rounded-lg border border-white/30 px-8 py-4 font-bold text-white transition-colors hover:bg-white/10"
+            href="mailto:careers@skylineaviation.com">
+            Mail Us Your Question
+          </a>
+        </div>
+
+        <form action="https://formspree.io/f/mwvrogyg"
+          class="mx-auto grid max-w-4xl grid-cols-1 gap-4 rounded-2xl bg-white p-6 text-left shadow-xl md:grid-cols-2"
+          id="contactForm" method="POST">
+          <label class="block">
+            <span class="mb-2 block text-sm font-medium text-slate-700">Name</span>
+            <input class="block w-full rounded-lg border-slate-200 bg-slate-50 px-4 py-3 text-sm" name="contactName"
+              required type="text">
+          </label>
+          <label class="block">
+            <span class="mb-2 block text-sm font-medium text-slate-700">Email</span>
+            <input class="block w-full rounded-lg border-slate-200 bg-slate-50 px-4 py-3 text-sm" name="contactEmail"
+              required type="email">
+          </label>
+          <label class="block md:col-span-2">
+            <span class="mb-2 block text-sm font-medium text-slate-700">Message</span>
+            <textarea class="block w-full rounded-lg border-slate-200 bg-slate-50 px-4 py-3 text-sm"
+              name="contactMessage" required rows="5"></textarea>
+          </label>
+          <div class="md:col-span-2 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <button class="rounded-lg bg-primary px-8 py-3 font-bold text-white transition-colors hover:bg-primary/90"
+              type="submit">
+              Send Message
+            </button>
+            <p class="text-sm text-slate-500" id="contactMessageStatus"></p>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-slate-200 bg-background-light pb-8 pt-16">
+    <div class="site-wrap px-4">
+      <div class="mb-16 grid grid-cols-1 gap-12 md:grid-cols-4">
+        <div class="md:col-span-1">
+          <div class="mb-6 flex items-center gap-2">
+            <span class="material-symbols-outlined text-3xl text-primary">flight_takeoff</span>
+            <span class="text-xl font-bold">Pawan Career Hub</span>
+          </div>
+          <p class="text-sm leading-relaxed text-slate-500">
+            Connecting airport talent with premium aviation opportunities through a faster and more professional hiring
+            experience.
+          </p>
+        </div>
+
+        <div>
+          <h5 class="mb-6 text-xs font-bold uppercase tracking-widest">For Candidates</h5>
+          <ul class="space-y-4 text-sm text-slate-500">
+            <li><a class="transition-colors hover:text-primary" href="#jobs">Browse Jobs</a></li>
+            <li><a class="transition-colors hover:text-primary" href="#benefits">Why Join Us</a></li>
+            <li><a class="transition-colors hover:text-primary" href="#about">About Us</a></li>
+            <li><a class="transition-colors hover:text-primary" href="#contact">Support</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h5 class="mb-6 text-xs font-bold uppercase tracking-widest">Company</h5>
+          <ul class="space-y-4 text-sm text-slate-500">
+            <li><a class="transition-colors hover:text-primary" href="#about">About Us</a></li>
+            <li><a class="transition-colors hover:text-primary" href="#jobs">Open Roles</a></li>
+            <li><a class="transition-colors hover:text-primary" href="#contact">Contact</a></li>
+            <!-- <li><a class="transition-colors hover:text-primary" href="#">Privacy Policy</a></li> -->
+          </ul>
+        </div>
+
+        <div>
+          <h5 class="mb-6 text-xs font-bold uppercase tracking-widest">Connect</h5>
+          <div class="mb-6 flex gap-4">
+            <a class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-200 transition-all hover:bg-primary hover:text-white"
+              href="#">
+              <span class="material-symbols-outlined text-lg">public</span>
+            </a>
+            <a class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-200 transition-all hover:bg-primary hover:text-white"
+              href="#">
+              <span class="material-symbols-outlined text-lg">share</span>
+            </a>
+            <a class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-200 transition-all hover:bg-primary hover:text-white"
+              href="mailto:careers@skylineaviation.com">
+              <span class="material-symbols-outlined text-lg">mail</span>
+            </a>
+          </div>
+          <p class="text-xs text-slate-400">&copy; 2026 Pawan Career Hub Recruitment.</p>
+        </div>
+      </div>
+
+      <div
+        class="flex flex-col items-center justify-between gap-4 border-t border-slate-200 pt-8 text-xs text-slate-400 md:flex-row">
+        <div class="flex gap-8">
+          <a class="hover:underline" href="#">Privacy Policy</a>
+          <a class="hover:underline" href="#">Terms of Service</a>
+          <a class="hover:underline" href="#">Cookie Settings</a>
+        </div>
+        <p>Designed for excellence in airport recruitment.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div
+    class="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between border-t border-slate-200 bg-white px-6 py-3 md:hidden">
+    <a class="flex flex-col items-center gap-1 text-primary" href="#home">
+      <span class="material-symbols-outlined">home</span>
+      <span class="text-[10px] font-bold">Home</span>
+    </a>
+    <a class="flex flex-col items-center gap-1 text-slate-400" href="#jobs">
+      <span class="material-symbols-outlined">search</span>
+      <span class="text-[10px] font-bold">Search</span>
+    </a>
+    <a class="flex flex-col items-center gap-1 text-slate-400" href="#jobs">
+      <span class="material-symbols-outlined">work</span>
+      <span class="text-[10px] font-bold">Jobs</span>
+    </a>
+    <a class="flex flex-col items-center gap-1 text-slate-400" href="#about">
+      <span class="material-symbols-outlined">info</span>
+      <span class="text-[10px] font-bold">About</span>
+    </a>
+  </div>
+
+  <section class="fixed inset-0 z-[60] hidden items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm"
+    id="applicationModal">
+    <div class="relative max-h-[92vh] w-full max-w-5xl overflow-auto rounded-2xl bg-white shadow-2xl">
+      <button
+        class="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition-colors hover:bg-slate-200"
+        id="closeApplicationModalButton" type="button">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+
+      <div class="grid grid-cols-1 gap-0 lg:grid-cols-[360px_1fr]">
+        <div class="bg-slate-900 p-8 text-white">
+          <p class="mb-3 text-xs font-bold uppercase tracking-[0.24em] text-primary">Selected Job</p>
+          <h3 class="mb-4 text-3xl font-bold leading-tight" id="selectedJobTitle">Choose a vacancy to begin your
+            application.</h3>
+          <p class="mb-8 text-slate-300" id="selectedJobMeta">Your selected role details will appear here.</p>
+
+          <div class="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-5">
+            <div class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-primary">description</span>
+              <p class="text-sm text-slate-200">Upload your resume and add a short cover letter with your application.
+              </p>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-primary">call</span>
+              <p class="text-sm text-slate-200">Need help before applying? Use the call button below.</p>
+            </div>
+          </div>
+
+          <a class="mt-8 inline-flex w-full items-center justify-center rounded-lg border border-white/20 bg-white/10 px-6 py-4 font-bold text-white transition-colors hover:bg-white/20"
+            href="tel:+919876543210">
+            Call Me Now
+          </a>
+        </div>
+
+        <form action="https://formspree.io/f/mwvrogyg" class="grid gap-5 p-8 md:p-10" enctype="multipart/form-data"
+          id="applicationForm" method="POST">
+          <div>
+            <p class="mb-2 text-sm font-bold uppercase tracking-widest text-primary">Job Application</p>
+            <h3 class="text-3xl font-bold text-slate-900">Submit your details</h3>
+          </div>
+
+          <input id="applicationJobId" name="jobId" type="hidden">
+
+          <label class="block">
+            <span class="mb-2 block text-sm font-medium text-slate-700">Full Name</span>
+            <input class="block w-full rounded-lg border-slate-200 bg-slate-50 px-4 py-3 text-sm" id="fullName"
+              name="fullName" required type="text">
+          </label>
+
+          <label class="block">
+            <span class="mb-2 block text-sm font-medium text-slate-700">Contact Number</span>
+            <input class="block w-full rounded-lg border-slate-200 bg-slate-50 px-4 py-3 text-sm" id="contactNumber"
+              name="contactNumber" required type="tel">
+          </label>
+
+          <label class="block">
+            <span class="mb-2 block text-sm font-medium text-slate-700">Email Address</span>
+            <input class="block w-full rounded-lg border-slate-200 bg-slate-50 px-4 py-3 text-sm" id="emailAddress"
+              name="emailAddress" required type="email">
+          </label>
+
+          <!-- <label class="block">
+            <span class="mb-2 block text-sm font-medium text-slate-700">Resume</span>
+            <input class="block w-full rounded-lg border-slate-200 bg-slate-50 px-4 py-3 text-sm" id="resumeFile"
+              name="resumeFile" accept=".pdf,.doc,.docx" required type="file">
+          </label> -->
+
+          <label class="block">
+            <span class="mb-2 block text-sm font-medium text-slate-700">Cover Letter</span>
+            <textarea class="block w-full rounded-lg border-slate-200 bg-slate-50 px-4 py-3 text-sm" id="coverLetter"
+              name="coverLetter" required rows="5"></textarea>
+          </label>
+
+          <div class="flex flex-col gap-3 pt-2 md:flex-row md:items-center md:justify-between">
+            <button class="rounded-lg bg-primary px-8 py-3 font-bold text-white transition-colors hover:bg-primary/90"
+              type="submit">
+              Submit Application
+            </button>
+            <a class="font-semibold text-primary hover:underline" href="tel:+919876543210">Call Me Now</a>
+          </div>
+
+          <p class="text-sm text-slate-500" id="applicationMessage"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
