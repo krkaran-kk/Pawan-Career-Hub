@@ -84,6 +84,8 @@ const elements = {
   selectedJobTitle: document.getElementById("selectedJobTitle"),
   selectedJobMeta: document.getElementById("selectedJobMeta"),
   applicationJobId: document.getElementById("applicationJobId"),
+  applicationJobTitle: document.getElementById("applicationJobTitle"),
+  applicationJobMeta: document.getElementById("applicationJobMeta"),
   applicationModal: document.getElementById("applicationModal"),
   closeApplicationModalButton: document.getElementById("closeApplicationModalButton"),
 };
@@ -206,9 +208,12 @@ function renderJobs() {
 }
 
 function openApplicationModal(job) {
+  const jobMeta = `${job.company} | ${job.location} | ${job.salary}`;
   elements.applicationJobId.value = job.id;
+  elements.applicationJobTitle.value = job.title;
+  elements.applicationJobMeta.value = jobMeta;
   elements.selectedJobTitle.textContent = job.title;
-  elements.selectedJobMeta.textContent = `${job.company} | ${job.location} | ${job.salary}`;
+  elements.selectedJobMeta.textContent = jobMeta;
   elements.applicationModal.classList.remove("hidden");
   elements.applicationModal.classList.add("flex");
   document.body.classList.add("overflow-hidden");
@@ -244,6 +249,61 @@ window.addEventListener("keydown", (event) => {
     closeApplicationModal();
   }
 });
+
+function setupFormSubmission(formId, statusId, successMessage) {
+  const form = document.getElementById(formId);
+  const status = document.getElementById(statusId);
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const submitButton = form.querySelector('button[type="submit"]');
+    const originalButtonText = submitButton.textContent.trim();
+    submitButton.disabled = true;
+    submitButton.textContent = "Sending...";
+    status.classList.remove("text-rose-600", "text-emerald-600");
+    status.classList.add("text-slate-500");
+    status.textContent = "Sending your details...";
+
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(Object.fromEntries(new FormData(form).entries())),
+      });
+      const payload = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(payload.message || "Unable to send your details right now.");
+      }
+
+      form.reset();
+      status.classList.remove("text-slate-500", "text-rose-600");
+      status.classList.add("text-emerald-600");
+      status.textContent = successMessage;
+    } catch (error) {
+      status.classList.remove("text-slate-500", "text-emerald-600");
+      status.classList.add("text-rose-600");
+      status.textContent = error.message;
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = originalButtonText;
+    }
+  });
+}
+
+setupFormSubmission(
+  "contactForm",
+  "contactMessageStatus",
+  "Thank you. Your message has been sent successfully."
+);
+setupFormSubmission(
+  "applicationForm",
+  "applicationMessage",
+  "Thank you. Your application has been sent successfully."
+);
 
 renderCategoryOptions();
 renderJobs();

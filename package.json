@@ -1,0 +1,11 @@
+{
+  "name": "pawan-career-hub",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "node tests/forms.test.js"
+  },
+  "dependencies": {
+    "nodemailer": "9.0.3"
+  }
+}

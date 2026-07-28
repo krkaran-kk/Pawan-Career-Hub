@@ -104,8 +104,8 @@
               Explore Opportunities
             </a>
             <a class="rounded-lg border border-white/30 bg-white/10 px-10 py-4 text-lg font-bold text-white backdrop-blur-sm transition-all hover:bg-white/20"
-              href="tel:+919876543210">
-              Call Me Now
+              href="tel:+918766328016">
+              Call 8766328016
             </a>
           </div>
 
@@ -225,8 +225,8 @@
               movement, and daily airport operations.</p>
           </div>
           <a class="rounded-lg border-2 border-primary px-8 py-3 font-bold text-primary transition-all hover:bg-primary hover:text-white"
-            href="tel:+919876543210">
-            Call Recruitment
+            href="tel:+918766328016">
+            Call 8766328016
           </a>
         </div>
 
@@ -381,40 +381,41 @@
 
         <div class="mx-auto mb-10 flex max-w-lg flex-col gap-4 md:flex-row">
           <a class="flex-1 rounded-lg bg-slate-900 px-8 py-4 font-bold text-white transition-colors hover:bg-slate-800"
-            href="tel:+919876543210">
-            Call Us Now
+            href="tel:+918766328016">
+            Call 8766328016
           </a>
           <a class="rounded-lg border border-white/30 px-8 py-4 font-bold text-white transition-colors hover:bg-white/10"
-            href="mailto:careers@skylineaviation.com">
-            Mail Us Your Question
+            href="mailto:pawancareerhub@gmail.com">
+            pawancareerhub@gmail.com
           </a>
         </div>
 
-        <form action="https://formspree.io/f/mwvrogyg"
+        <form action="/api/submit-form"
           class="mx-auto grid max-w-4xl grid-cols-1 gap-4 rounded-2xl bg-white p-6 text-left shadow-xl md:grid-cols-2"
           id="contactForm" method="POST">
           <input name="formType" type="hidden" value="Contact Form">
+          <input class="hidden" name="website" tabindex="-1" type="text" autocomplete="off">
           <label class="block">
             <span class="mb-2 block text-sm font-medium text-slate-700">Name</span>
             <input class="block w-full rounded-lg border-slate-200 bg-slate-50 px-4 py-3 text-sm" name="name" required
-              type="text">
+              maxlength="100" type="text">
           </label>
           <label class="block">
             <span class="mb-2 block text-sm font-medium text-slate-700">Email</span>
             <input class="block w-full rounded-lg border-slate-200 bg-slate-50 px-4 py-3 text-sm" name="email" required
-              type="email">
+              maxlength="254" type="email">
           </label>
           <label class="block md:col-span-2">
             <span class="mb-2 block text-sm font-medium text-slate-700">Message</span>
             <textarea class="block w-full rounded-lg border-slate-200 bg-slate-50 px-4 py-3 text-sm" name="message"
-              required rows="5"></textarea>
+              maxlength="5000" required rows="5"></textarea>
           </label>
           <div class="md:col-span-2 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <button class="rounded-lg bg-primary px-8 py-3 font-bold text-white transition-colors hover:bg-primary/90"
               type="submit">
               Send Message
             </button>
-            <p class="text-sm text-slate-500" id="contactMessageStatus"></p>
+            <p aria-live="polite" class="text-sm text-slate-500" id="contactMessageStatus"></p>
           </div>
         </form>
       </div>
@@ -467,7 +468,7 @@
               <span class="material-symbols-outlined text-lg">share</span>
             </a>
             <a class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-200 transition-all hover:bg-primary hover:text-white"
-              href="mailto:careers@skylineaviation.com">
+              href="mailto:pawancareerhub@gmail.com">
               <span class="material-symbols-outlined text-lg">mail</span>
             </a>
           </div>
@@ -526,7 +527,7 @@
           <div class="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-5">
             <div class="flex items-start gap-3">
               <span class="material-symbols-outlined text-primary">description</span>
-              <p class="text-sm text-slate-200">Upload your resume and add a short cover letter with your application.
+              <p class="text-sm text-slate-200">Add a short cover letter with your application.
               </p>
             </div>
             <div class="flex items-start gap-3">
@@ -536,12 +537,12 @@
           </div>
 
           <a class="mt-8 inline-flex w-full items-center justify-center rounded-lg border border-white/20 bg-white/10 px-6 py-4 font-bold text-white transition-colors hover:bg-white/20"
-            href="tel:+919876543210">
-            Call Me Now
+            href="tel:+918766328016">
+            Call 8766328016
           </a>
         </div>
 
-        <form action="https://formspree.io/f/mwvrogyg" class="grid gap-5 p-8 md:p-10" id="applicationForm"
+        <form action="/api/submit-form" class="grid gap-5 p-8 md:p-10" id="applicationForm"
           method="POST">
           <div>
             <p class="mb-2 text-sm font-bold uppercase tracking-widest text-primary">Job Application</p>
@@ -549,24 +550,28 @@
           </div>
 
           <input id="applicationJobId" name="jobId" type="hidden">
+          <input id="applicationJobTitle" name="jobTitle" type="hidden">
+          <input id="applicationJobMeta" name="jobMeta" type="hidden">
           <input name="formType" type="hidden" value="Job Application">
+          <input class="hidden" name="website" tabindex="-1" type="text" autocomplete="off">
 
           <label class="block">
             <span class="mb-2 block text-sm font-medium text-slate-700">Full Name</span>
             <input class="block w-full rounded-lg border-slate-200 bg-slate-50 px-4 py-3 text-sm" id="fullName"
-              name="name" required type="text">
+              maxlength="100" name="name" required type="text">
           </label>
 
           <label class="block">
             <span class="mb-2 block text-sm font-medium text-slate-700">Contact Number</span>
             <input class="block w-full rounded-lg border-slate-200 bg-slate-50 px-4 py-3 text-sm" id="contactNumber"
-              name="contactNumber" required type="tel">
+              inputmode="tel" maxlength="30" name="contactNumber" pattern="[0-9+() -]{7,30}" placeholder="8766328016"
+              required type="tel">
           </label>
 
           <label class="block">
             <span class="mb-2 block text-sm font-medium text-slate-700">Email Address</span>
             <input class="block w-full rounded-lg border-slate-200 bg-slate-50 px-4 py-3 text-sm" id="emailAddress"
-              name="email" required type="email">
+              maxlength="254" name="email" required type="email">
           </label>
 
           <!-- The PDF Upload Option has been removed here -->
@@ -574,7 +579,7 @@
           <label class="block">
             <span class="mb-2 block text-sm font-medium text-slate-700">Cover Letter</span>
             <textarea class="block w-full rounded-lg border-slate-200 bg-slate-50 px-4 py-3 text-sm" id="coverLetter"
-              name="message" required rows="5"></textarea>
+              maxlength="5000" name="message" required rows="5"></textarea>
           </label>
 
           <div class="flex flex-col gap-3 pt-2 md:flex-row md:items-center md:justify-between">
@@ -582,10 +587,10 @@
               type="submit">
               Submit Application
             </button>
-            <a class="font-semibold text-primary hover:underline" href="tel:+919876543210">Call Me Now</a>
+            <a class="font-semibold text-primary hover:underline" href="tel:+918766328016">Call 8766328016</a>
           </div>
 
-          <p class="text-sm text-slate-500" id="applicationMessage"></p>
+          <p aria-live="polite" class="text-sm text-slate-500" id="applicationMessage"></p>
         </form>
       </div>
     </div>
