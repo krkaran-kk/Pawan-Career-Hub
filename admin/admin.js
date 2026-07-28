@@ -1,6 +1,17 @@
 const STORAGE_KEYS = {
   jobs: "skyport_jobs",
+  positionTypes: "skyport_position_types",
 };
+
+const DEFAULT_POSITION_TYPES = [
+  "Cabin Crew",
+  "Ground Staff",
+  "Customer Service",
+  "Ramp Operations",
+  "Security",
+];
+
+const CUSTOM_POSITION_TYPE_VALUE = "__custom__";
 
 const SESSION_ENDPOINTS = {
   login: "/api/admin-login",
@@ -80,10 +91,13 @@ const elements = {
   salary: document.getElementById("salary"),
   jobLocation: document.getElementById("jobLocation"),
   positionType: document.getElementById("positionType"),
+  customPositionTypeField: document.getElementById("customPositionTypeField"),
+  customPositionType: document.getElementById("customPositionType"),
   jobStatus: document.getElementById("jobStatus"),
 };
 
 let jobs = loadJobs();
+let positionTypes = loadPositionTypes();
 let adminAuthenticated = false;
 
 function loadJobs() {
@@ -103,6 +117,30 @@ function loadJobs() {
 
 function saveJobs() {
   localStorage.setItem(STORAGE_KEYS.jobs, JSON.stringify(jobs));
+}
+
+function loadPositionTypes() {
+  let storedTypes = [];
+
+  try {
+    storedTypes = JSON.parse(localStorage.getItem(STORAGE_KEYS.positionTypes)) || [];
+  } catch {
+    storedTypes = [];
+  }
+
+  if (!Array.isArray(storedTypes)) {
+    storedTypes = [];
+  }
+
+  return [...new Set([
+    ...DEFAULT_POSITION_TYPES,
+    ...storedTypes,
+    ...jobs.map((job) => job.type).filter(Boolean),
+  ])];
+}
+
+function savePositionTypes() {
+  localStorage.setItem(STORAGE_KEYS.positionTypes, JSON.stringify(positionTypes));
 }
 
 function escapeHtml(text) {
@@ -129,10 +167,42 @@ function statusClasses(status) {
   return "bg-amber-100 text-amber-700";
 }
 
+function renderPositionTypes(selectedType = "") {
+  elements.positionType.innerHTML = [
+    ...positionTypes.map(
+      (type) => `<option value="${escapeHtml(type)}">${escapeHtml(type)}</option>`
+    ),
+    `<option value="${CUSTOM_POSITION_TYPE_VALUE}">+ Add a new position type</option>`,
+  ].join("");
+
+  if (selectedType && !positionTypes.includes(selectedType)) {
+    positionTypes.push(selectedType);
+    savePositionTypes();
+    renderPositionTypes(selectedType);
+    return;
+  }
+
+  elements.positionType.value = selectedType || positionTypes[0];
+}
+
+function toggleCustomPositionType() {
+  const isCustom = elements.positionType.value === CUSTOM_POSITION_TYPE_VALUE;
+  elements.customPositionTypeField.classList.toggle("hidden", !isCustom);
+  elements.customPositionType.required = isCustom;
+
+  if (isCustom) {
+    elements.customPositionType.focus();
+  } else {
+    elements.customPositionType.value = "";
+  }
+}
+
 function resetJobForm() {
   elements.jobForm.reset();
   elements.jobId.value = "";
   elements.jobFormHeading.textContent = "Post a new vacancy";
+  renderPositionTypes();
+  toggleCustomPositionType();
   elements.jobStatus.value = "Drafted";
 }
 
@@ -150,7 +220,8 @@ function fillJobForm(jobId) {
   elements.workingHours.value = job.hours;
   elements.salary.value = job.salary;
   elements.jobLocation.value = job.location;
-  elements.positionType.value = job.type;
+  renderPositionTypes(job.type);
+  toggleCustomPositionType();
   elements.jobStatus.value = job.status;
 }
 
@@ -278,6 +349,22 @@ elements.adminLogoutButton.addEventListener("click", async () => {
 elements.jobForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
+  const isCustomType = elements.positionType.value === CUSTOM_POSITION_TYPE_VALUE;
+  const selectedPositionType = isCustomType
+    ? elements.customPositionType.value.trim()
+    : elements.positionType.value;
+
+  if (!selectedPositionType) {
+    elements.customPositionType.reportValidity();
+    return;
+  }
+
+  if (!positionTypes.includes(selectedPositionType)) {
+    positionTypes.push(selectedPositionType);
+    positionTypes.sort((first, second) => first.localeCompare(second));
+    savePositionTypes();
+  }
+
   const payload = {
     id: elements.jobId.value || `job-${Date.now()}`,
     title: elements.jobTitle.value.trim(),
@@ -286,7 +373,7 @@ elements.jobForm.addEventListener("submit", (event) => {
     hours: elements.workingHours.value.trim(),
     salary: elements.salary.value.trim(),
     location: elements.jobLocation.value.trim(),
-    type: elements.positionType.value,
+    type: selectedPositionType,
     status: elements.jobStatus.value,
   };
 
@@ -309,4 +396,7 @@ elements.resetJobFormButton.addEventListener("click", () => {
   elements.jobFormMessage.textContent = "Form cleared.";
 });
 
+elements.positionType.addEventListener("change", toggleCustomPositionType);
+
+renderPositionTypes();
 checkAdminSession();

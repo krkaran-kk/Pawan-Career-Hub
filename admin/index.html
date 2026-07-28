@@ -4,6 +4,10 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#2b7cee">
+  <link rel="icon" href="/app-icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="/app-icon-192.png">
+  <link rel="manifest" href="/manifest.webmanifest">
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
@@ -143,16 +147,24 @@
                 <input class="block w-full rounded-xl border-slate-200 bg-white px-4 py-3 text-sm" id="jobLocation" type="text" required>
               </label>
 
-              <label class="block">
-                <span class="mb-2 block text-sm font-medium text-slate-700">Position Type</span>
-                <select class="block w-full rounded-xl border-slate-200 bg-white px-4 py-3 text-sm" id="positionType" required>
-                  <option value="Cabin Crew">Cabin Crew</option>
-                  <option value="Ground Staff">Ground Staff</option>
-                  <option value="Customer Service">Customer Service</option>
-                  <option value="Ramp Operations">Ramp Operations</option>
-                  <option value="Security">Security</option>
-                </select>
-              </label>
+              <div class="grid gap-3">
+                <label class="block">
+                  <span class="mb-2 block text-sm font-medium text-slate-700">Position Type</span>
+                  <select class="block w-full rounded-xl border-slate-200 bg-white px-4 py-3 text-sm" id="positionType" required>
+                    <option value="Cabin Crew">Cabin Crew</option>
+                    <option value="Ground Staff">Ground Staff</option>
+                    <option value="Customer Service">Customer Service</option>
+                    <option value="Ramp Operations">Ramp Operations</option>
+                    <option value="Security">Security</option>
+                    <option value="__custom__">+ Add a new position type</option>
+                  </select>
+                </label>
+                <label class="hidden block" id="customPositionTypeField">
+                  <span class="mb-2 block text-sm font-medium text-slate-700">New Position Type</span>
+                  <input class="block w-full rounded-xl border-slate-200 bg-white px-4 py-3 text-sm" id="customPositionType" maxlength="60" placeholder="e.g. Cargo Operations" type="text">
+                  <span class="mt-1 block text-xs text-slate-500">This type will be saved and available for future job posts.</span>
+                </label>
+              </div>
 
               <label class="block">
                 <span class="mb-2 block text-sm font-medium text-slate-700">Status</span>

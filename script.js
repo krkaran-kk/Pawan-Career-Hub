@@ -131,6 +131,26 @@ function badgeClasses(badge) {
   return "bg-sky-100 text-sky-700";
 }
 
+function renderCategoryOptions() {
+  const selectedCategory = elements.jobCategoryFilter.value || "all";
+  const categories = [...new Set(
+    jobs
+      .filter((job) => job.status === "Active" && job.type)
+      .map((job) => job.type)
+  )].sort((first, second) => first.localeCompare(second));
+
+  elements.jobCategoryFilter.innerHTML = [
+    '<option value="all">All Departments</option>',
+    ...categories.map(
+      (category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`
+    ),
+  ].join("");
+
+  elements.jobCategoryFilter.value = categories.includes(selectedCategory)
+    ? selectedCategory
+    : "all";
+}
+
 function renderJobs() {
   const query = elements.jobSearchInput.value.trim().toLowerCase();
   const category = elements.jobCategoryFilter.value;
@@ -225,4 +245,5 @@ window.addEventListener("keydown", (event) => {
   }
 });
 
+renderCategoryOptions();
 renderJobs();
