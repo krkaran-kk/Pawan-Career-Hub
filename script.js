@@ -1,79 +1,4 @@
-const STORAGE_KEYS = {
-  jobs: "skyport_jobs",
-};
-
-const defaultJobs = [
-  {
-    id: "job-1",
-    title: "Cabin Crew Associate",
-    company: "Skyline Aviation",
-    description: "Assist passengers with boarding, in-flight service, safety guidance, and a polished travel experience.",
-    hours: "Rotational shifts",
-    salary: "Rs 38,000 - Rs 52,000 / month",
-    location: "Delhi International Airport",
-    type: "Cabin Crew",
-    status: "Active",
-    badge: "Full Time",
-    icon: "flight_class",
-    posted: "2 days ago",
-  },
-  {
-    id: "job-2",
-    title: "Ground Staff Executive",
-    company: "SkyPort Services",
-    description: "Support check-in, boarding assistance, passenger queries, and daily terminal coordination.",
-    hours: "Day and evening shifts",
-    salary: "Rs 24,000 - Rs 32,000 / month",
-    location: "Mumbai Airport",
-    type: "Ground Staff",
-    status: "Active",
-    badge: "Entry Level",
-    icon: "support_agent",
-    posted: "5 hours ago",
-  },
-  {
-    id: "job-3",
-    title: "Customer Service Officer",
-    company: "Terminal Connect",
-    description: "Provide front-desk support, lounge assistance, and customer care for airport passengers.",
-    hours: "8-hour flexible roster",
-    salary: "Rs 30,000 - Rs 40,000 / month",
-    location: "Bengaluru Airport",
-    type: "Customer Service",
-    status: "Active",
-    badge: "Immediate",
-    icon: "badge",
-    posted: "1 day ago",
-  },
-  {
-    id: "job-4",
-    title: "Ramp Operations Agent",
-    company: "RunwayLink Logistics",
-    description: "Handle baggage coordination, aircraft support tasks, and apron-side operational assistance.",
-    hours: "Rotational 12-hour shifts",
-    salary: "Rs 26,000 - Rs 35,000 / month",
-    location: "Hyderabad Airport",
-    type: "Ramp Operations",
-    status: "Active",
-    badge: "Contract",
-    icon: "engineering",
-    posted: "3 days ago",
-  },
-  {
-    id: "job-5",
-    title: "Airport Security Assistant",
-    company: "SecureWing Support",
-    description: "Assist with airport access control, screening support, and passenger safety procedures.",
-    hours: "Rotational shifts",
-    salary: "Rs 22,000 - Rs 30,000 / month",
-    location: "Chennai Airport",
-    type: "Security",
-    status: "Active",
-    badge: "Full Time",
-    icon: "shield",
-    posted: "Today",
-  },
-];
+const JOBS_ENDPOINT = "/api/jobs";
 
 const elements = {
   jobListings: document.getElementById("jobListings"),
@@ -90,22 +15,7 @@ const elements = {
   closeApplicationModalButton: document.getElementById("closeApplicationModalButton"),
 };
 
-let jobs = loadJobs();
-
-function loadJobs() {
-  const stored = localStorage.getItem(STORAGE_KEYS.jobs);
-  if (!stored) {
-    localStorage.setItem(STORAGE_KEYS.jobs, JSON.stringify(defaultJobs));
-    return [...defaultJobs];
-  }
-
-  try {
-    return JSON.parse(stored);
-  } catch {
-    localStorage.setItem(STORAGE_KEYS.jobs, JSON.stringify(defaultJobs));
-    return [...defaultJobs];
-  }
-}
+let jobs = [];
 
 function escapeHtml(text) {
   return String(text).replace(/[&<>"']/g, (char) => {
@@ -130,7 +40,10 @@ function badgeClasses(badge) {
   if (badge === "Contract") {
     return "bg-amber-100 text-amber-700";
   }
-  return "bg-sky-100 text-sky-700";
+  if (badge === "Testing") {
+    return "bg-sky-100 text-sky-700";
+  }
+  return "bg-slate-100 text-slate-700";
 }
 
 function renderCategoryOptions() {
@@ -168,6 +81,9 @@ function renderJobs() {
   });
 
   elements.activeJobsStat.textContent = String(activeJobs.length);
+  elements.emptyJobsState.textContent = activeJobs.length
+    ? "No jobs match your current search."
+    : "No active jobs are published right now.";
   elements.emptyJobsState.classList.toggle("hidden", filteredJobs.length > 0);
 
   elements.jobListings.innerHTML = filteredJobs
@@ -223,6 +139,27 @@ function closeApplicationModal() {
   elements.applicationModal.classList.add("hidden");
   elements.applicationModal.classList.remove("flex");
   document.body.classList.remove("overflow-hidden");
+}
+
+async function fetchJobs() {
+  try {
+    const response = await fetch(JOBS_ENDPOINT, {
+      cache: "no-store",
+    });
+    const payload = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      throw new Error(payload.message || "Unable to load jobs right now.");
+    }
+
+    jobs = Array.isArray(payload.jobs) ? payload.jobs : [];
+  } catch (error) {
+    console.error("Unable to load jobs:", error);
+    jobs = [];
+  }
+
+  renderCategoryOptions();
+  renderJobs();
 }
 
 document.addEventListener("click", (event) => {
@@ -283,6 +220,11 @@ function setupFormSubmission(formId, statusId, successMessage) {
       status.classList.remove("text-slate-500", "text-rose-600");
       status.classList.add("text-emerald-600");
       status.textContent = successMessage;
+
+      if (formId === "applicationForm") {
+        elements.selectedJobTitle.textContent = "Choose a vacancy to begin your application.";
+        elements.selectedJobMeta.textContent = "Your selected role details will appear here.";
+      }
     } catch (error) {
       status.classList.remove("text-slate-500", "text-emerald-600");
       status.classList.add("text-rose-600");
@@ -305,5 +247,4 @@ setupFormSubmission(
   "Thank you. Your application has been sent successfully."
 );
 
-renderCategoryOptions();
-renderJobs();
+fetchJobs();

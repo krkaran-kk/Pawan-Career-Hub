@@ -1,8 +1,3 @@
-const STORAGE_KEYS = {
-  jobs: "skyport_jobs",
-  positionTypes: "skyport_position_types",
-};
-
 const DEFAULT_POSITION_TYPES = [
   "Cabin Crew",
   "Ground Staff",
@@ -19,56 +14,7 @@ const SESSION_ENDPOINTS = {
   logout: "/api/admin-logout",
 };
 
-const defaultJobs = [
-  {
-    id: "job-1",
-    title: "Cabin Crew Associate",
-    company: "SkyPort Line",
-    description:
-      "Assist passengers with boarding, in-flight service, safety guidance, and a professional travel experience.",
-    hours: "Rotational shifts, 9 hours",
-    salary: "Rs 38,000 - Rs 52,000 / month",
-    location: "Delhi International Airport",
-    type: "Cabin Crew",
-    status: "Active",
-  },
-  {
-    id: "job-2",
-    title: "Ground Staff Executive",
-    company: "AeroBridge Services",
-    description:
-      "Support check-in, boarding assistance, passenger queries, and daily terminal coordination.",
-    hours: "Day and evening shifts",
-    salary: "Rs 24,000 - Rs 32,000 / month",
-    location: "Mumbai Airport",
-    type: "Ground Staff",
-    status: "Active",
-  },
-  {
-    id: "job-3",
-    title: "Guest Service Officer",
-    company: "Terminal One Hospitality",
-    description:
-      "Provide front-desk support, lounge assistance, and customer care for passengers at the airport.",
-    hours: "8-hour flexible roster",
-    salary: "Rs 30,000 - Rs 40,000 / month",
-    location: "Bengaluru Airport",
-    type: "Customer Service",
-    status: "Drafted",
-  },
-  {
-    id: "job-4",
-    title: "Ramp Operations Agent",
-    company: "RunwayLink Logistics",
-    description:
-      "Handle baggage coordination, aircraft support tasks, and apron-side operational assistance.",
-    hours: "Rotational 12-hour shifts",
-    salary: "Rs 26,000 - Rs 35,000 / month",
-    location: "Hyderabad Airport",
-    type: "Ramp Operations",
-    status: "Active",
-  },
-];
+const JOBS_ENDPOINT = "/api/jobs";
 
 const elements = {
   adminAuth: document.getElementById("adminAuth"),
@@ -96,52 +42,9 @@ const elements = {
   jobStatus: document.getElementById("jobStatus"),
 };
 
-let jobs = loadJobs();
-let positionTypes = loadPositionTypes();
+let jobs = [];
+let positionTypes = [...DEFAULT_POSITION_TYPES];
 let adminAuthenticated = false;
-
-function loadJobs() {
-  const stored = localStorage.getItem(STORAGE_KEYS.jobs);
-  if (!stored) {
-    localStorage.setItem(STORAGE_KEYS.jobs, JSON.stringify(defaultJobs));
-    return [...defaultJobs];
-  }
-
-  try {
-    return JSON.parse(stored);
-  } catch {
-    localStorage.setItem(STORAGE_KEYS.jobs, JSON.stringify(defaultJobs));
-    return [...defaultJobs];
-  }
-}
-
-function saveJobs() {
-  localStorage.setItem(STORAGE_KEYS.jobs, JSON.stringify(jobs));
-}
-
-function loadPositionTypes() {
-  let storedTypes = [];
-
-  try {
-    storedTypes = JSON.parse(localStorage.getItem(STORAGE_KEYS.positionTypes)) || [];
-  } catch {
-    storedTypes = [];
-  }
-
-  if (!Array.isArray(storedTypes)) {
-    storedTypes = [];
-  }
-
-  return [...new Set([
-    ...DEFAULT_POSITION_TYPES,
-    ...storedTypes,
-    ...jobs.map((job) => job.type).filter(Boolean),
-  ])];
-}
-
-function savePositionTypes() {
-  localStorage.setItem(STORAGE_KEYS.positionTypes, JSON.stringify(positionTypes));
-}
 
 function escapeHtml(text) {
   return String(text).replace(/[&<>"']/g, (char) => {
@@ -167,7 +70,16 @@ function statusClasses(status) {
   return "bg-amber-100 text-amber-700";
 }
 
+function derivePositionTypes() {
+  return [...new Set([
+    ...DEFAULT_POSITION_TYPES,
+    ...jobs.map((job) => job.type).filter(Boolean),
+  ])].sort((first, second) => first.localeCompare(second));
+}
+
 function renderPositionTypes(selectedType = "") {
+  positionTypes = derivePositionTypes();
+
   elements.positionType.innerHTML = [
     ...positionTypes.map(
       (type) => `<option value="${escapeHtml(type)}">${escapeHtml(type)}</option>`
@@ -176,13 +88,13 @@ function renderPositionTypes(selectedType = "") {
   ].join("");
 
   if (selectedType && !positionTypes.includes(selectedType)) {
-    positionTypes.push(selectedType);
-    savePositionTypes();
-    renderPositionTypes(selectedType);
+    elements.positionType.value = CUSTOM_POSITION_TYPE_VALUE;
+    elements.customPositionType.value = selectedType;
+    toggleCustomPositionType();
     return;
   }
 
-  elements.positionType.value = selectedType || positionTypes[0];
+  elements.positionType.value = selectedType || positionTypes[0] || "Ground Staff";
 }
 
 function toggleCustomPositionType() {
@@ -262,10 +174,59 @@ function syncAdminView() {
   }
 }
 
+async function loadJobsFromServer() {
+  try {
+    const response = await fetch(JOBS_ENDPOINT, {
+      cache: "no-store",
+      credentials: "same-origin",
+    });
+    const payload = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      throw new Error(payload.message || "Unable to load jobs.");
+    }
+
+    jobs = Array.isArray(payload.jobs) ? payload.jobs : [];
+    renderPositionTypes();
+    renderAdminJobs();
+
+    if (payload.writable === false && payload.message) {
+      elements.jobFormMessage.textContent = payload.message;
+    }
+  } catch (error) {
+    jobs = [];
+    renderPositionTypes();
+    renderAdminJobs();
+    elements.jobFormMessage.textContent = error.message || "Unable to load jobs.";
+  }
+}
+
+async function saveJobsToServer(successMessage) {
+  const response = await fetch(JOBS_ENDPOINT, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "same-origin",
+    body: JSON.stringify({ jobs }),
+  });
+
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(payload.message || "Unable to save jobs.");
+  }
+
+  jobs = Array.isArray(payload.jobs) ? payload.jobs : jobs;
+  renderPositionTypes();
+  renderAdminJobs();
+  elements.jobFormMessage.textContent = successMessage;
+}
+
 async function checkAdminSession() {
   try {
     const response = await fetch(SESSION_ENDPOINTS.session, {
       credentials: "same-origin",
+      cache: "no-store",
     });
     const payload = await response.json();
     adminAuthenticated = Boolean(payload.authenticated);
@@ -274,9 +235,13 @@ async function checkAdminSession() {
   }
 
   syncAdminView();
+
+  if (adminAuthenticated) {
+    await loadJobsFromServer();
+  }
 }
 
-document.addEventListener("click", (event) => {
+document.addEventListener("click", async (event) => {
   const editButton = event.target.closest(".admin-edit");
   if (editButton) {
     fillJobForm(editButton.dataset.jobId);
@@ -291,9 +256,13 @@ document.addEventListener("click", (event) => {
     }
 
     job.status = statusButton.dataset.status;
-    saveJobs();
-    renderAdminJobs();
-    elements.jobFormMessage.textContent = `Job status updated to ${job.status}.`;
+
+    try {
+      await saveJobsToServer(`Job status updated to ${job.status}.`);
+    } catch (error) {
+      elements.jobFormMessage.textContent = error.message || "Unable to update job status.";
+      await loadJobsFromServer();
+    }
   }
 });
 
@@ -326,6 +295,7 @@ elements.adminLoginForm.addEventListener("submit", async (event) => {
     elements.adminPasswordInput.value = "";
     elements.adminLoginMessage.textContent = "";
     syncAdminView();
+    await loadJobsFromServer();
   } catch {
     elements.adminLoginMessage.textContent = "Unable to reach the login service.";
   }
@@ -346,7 +316,7 @@ elements.adminLogoutButton.addEventListener("click", async () => {
   syncAdminView();
 });
 
-elements.jobForm.addEventListener("submit", (event) => {
+elements.jobForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   const isCustomType = elements.positionType.value === CUSTOM_POSITION_TYPE_VALUE;
@@ -359,12 +329,7 @@ elements.jobForm.addEventListener("submit", (event) => {
     return;
   }
 
-  if (!positionTypes.includes(selectedPositionType)) {
-    positionTypes.push(selectedPositionType);
-    positionTypes.sort((first, second) => first.localeCompare(second));
-    savePositionTypes();
-  }
-
+  const existingJob = jobs.find((job) => job.id === elements.jobId.value);
   const payload = {
     id: elements.jobId.value || `job-${Date.now()}`,
     title: elements.jobTitle.value.trim(),
@@ -375,20 +340,25 @@ elements.jobForm.addEventListener("submit", (event) => {
     location: elements.jobLocation.value.trim(),
     type: selectedPositionType,
     status: elements.jobStatus.value,
+    badge: existingJob && existingJob.badge ? existingJob.badge : selectedPositionType,
+    icon: existingJob && existingJob.icon ? existingJob.icon : "work",
+    posted: existingJob && existingJob.posted ? existingJob.posted : "Recently posted",
   };
 
   const existingIndex = jobs.findIndex((job) => job.id === payload.id);
   if (existingIndex >= 0) {
     jobs[existingIndex] = payload;
-    elements.jobFormMessage.textContent = "Job updated successfully.";
   } else {
     jobs.unshift(payload);
-    elements.jobFormMessage.textContent = "Job created successfully.";
   }
 
-  saveJobs();
-  renderAdminJobs();
-  resetJobForm();
+  try {
+    await saveJobsToServer(existingIndex >= 0 ? "Job updated successfully." : "Job created successfully.");
+    resetJobForm();
+  } catch (error) {
+    elements.jobFormMessage.textContent = error.message || "Unable to save job.";
+    await loadJobsFromServer();
+  }
 });
 
 elements.resetJobFormButton.addEventListener("click", () => {
@@ -399,4 +369,5 @@ elements.resetJobFormButton.addEventListener("click", () => {
 elements.positionType.addEventListener("change", toggleCustomPositionType);
 
 renderPositionTypes();
+resetJobForm();
 checkAdminSession();
