@@ -40,6 +40,10 @@
   </script>
   <title>Pawan Career Hub | Airport Careers</title>
   <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       min-height: max(884px, 100dvh);
     }
@@ -110,10 +114,11 @@
           </div>
 
           <div class="mt-14 grid grid-cols-1 gap-4 md:grid-cols-3">
-            <div class="rounded-2xl border border-white/10 bg-white/10 p-5 backdrop-blur-sm">
+            <a class="block rounded-2xl border border-white/10 bg-white/10 p-5 backdrop-blur-sm transition hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-white/50"
+              href="#jobs">
               <p class="text-3xl font-black text-white" id="activeJobsStat">0</p>
               <p class="text-sm text-slate-200">Active vacancies</p>
-            </div>
+            </a>
             <div class="rounded-2xl border border-white/10 bg-white/10 p-5 backdrop-blur-sm">
               <p class="text-3xl font-black text-white">24h</p>
               <p class="text-sm text-slate-200">Quick recruiter response</p>
